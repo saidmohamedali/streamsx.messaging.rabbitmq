@@ -1,0 +1,39 @@
+/**
+* **Developing and running applications that use RABBITMQ operators**
+* 
+* To create applications that use the RABBIT operators in the Messaging toolkit, you must set environment variables.  You must also configure either IBM InfoSphere Streams or the SPL compiler to be aware of the location of the toolkit. 
+* 
+* **Before you begin**
+* 
+* * Install IBM InfoSphere Streams and set the **STREAMS_INSTALL** environment variable to the InfoSphere Streams installation directory.  For example: 
+*   * `export STREAMS_INSTALL=Streams-Install-Directory`
+* * RABBIT MQ Server might or might not be on the same machine.
+*   * RABBIT MQ Client and RABBIT MQ Server
+*     * Download and install RabbitMQ from ([https://www.rabbitmq.com/download.html]).
+*   * RABBIT client
+*     * The `RABBITMQSource` and `RABBITMQSink` operators are supported by RabbitMQ server.
+
+* **Procedure**
+*
+* 1. Verify that the appropriate environment variables are set for the messaging systems that you use.
+*   * use `RABBITMQSink` or `RABBITMQSource` operators to connect to RABBIT MQ messaging systems.
+* 2. Develop your application. 
+* InfoSphere Streams Studio can help you create and debug SPL and SPL mixed-mode applications. To use the operators from the Messaging Toolkit, you must add the toolkit location.
+* To avoid the need to fully qualify the operators, add a use directive in your application. For example, you can add one of the following clauses in your SPL source file: 
+*    * `use com.ibm.streamsx.messaging.rabbitmq;`
+*    * `use com.ibm.streams.streamsx.messaging.rabbitmq::RABBITMQSource;`
+*    * `use com.ibm.streams.streamsx.messaging.rabbitmq::RABBITMQSink;`
+* 3. Build your application. 
+* You can use the **sc** command or Streams Studio.
+* To build the application in Streams Studio, you must add the toolkit location if you did not already do so.
+* To build the application from the command line, you must configure the SPL compiler to find the root directory of the toolkit. Use one of the following methods:
+*    * Set the **STREAMS_SPLPATH** environment variable to the root directory of a toolkit or multiple toolkits (using a colon (:) as a separator). For example:
+*       * `export STREAMS_SPLPATH=$STREAMS_INSTALL/toolkits/com.ibm.streamsx.messaging`
+*    * Specify the **-t** or **--spl-path** command parameter when you run the **sc** command. Note: These command parameters override the **STREAMS_SPLPATH** environment variable. For example:
+*       * `sc -t $STREAMS_INSTALL/toolkits/com.ibm.streamsx.messaging.rabbitmq -M RABBITMQComposite`
+* 6. Start the InfoSphere Streams instance. 
+* 7. Run the application. You can submit the application as a job by using the **streamtool submitjob** command or by using Streams Studio. 
+*/
+
+namespace com.ibm.streamsx.messaging.rabbitmq;
+

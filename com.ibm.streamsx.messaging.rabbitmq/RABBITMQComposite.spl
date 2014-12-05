@@ -1,0 +1,40 @@
+namespace com.ibm.streamsx.messaging.rabbitmq;
+
+
+
+composite RABBITMQComposite
+{
+	graph
+		
+		() as Sink= RABBITMQSink(Source)
+		{
+		param
+			routingKey: "Generic_routingkey";
+			exchangeName: "Generic_exchange";
+			userName: "guest";
+			password: "guest";
+			hostName: "10.206.21.127";
+			portId: 5672;
+		}
+		
+		stream<rstring guid, rstring message> Source= RABBITMQSource()
+		{
+		param
+			routingKey: "Generic_routingkey";
+			exchangeName: "Generic_exchange";
+			userName: "guest";
+			password: "guest";
+			hostName: "10.206.21.127";
+			portId: 5672;
+		}
+		() as printMessage = Custom(Source)
+		{
+			logic
+				onTuple Source:
+				{
+					printStringLn("message:" + Source.message);
+				}
+		}
+		
+
+}

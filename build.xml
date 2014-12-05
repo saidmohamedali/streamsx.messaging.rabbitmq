@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// *******************************************************************************
+// * Copyright (C)2014, International Business Machines Corporation and *
+// * others. All Rights Reserved. *
+// *******************************************************************************
+-->
+<project name="com.ibm.streamsx.messaging" basedir="." default="all">
+
+	<property environment="env" />
+	<property name="streams.install" value="${env.STREAMS_INSTALL}" />
+	<property name="maven.bin" value="${env.M2_HOME}/bin/mvn" />
+	<property name="pom.file" value="${basedir}/impl/java/pom.xml" />
+	<property name="SPLC" value="${streams.install}/bin/sc" />
+	<property name="SPL_CMD_ARGS" value="--data-directory=data" />
+	<property name="SPL_MAIN_COMPOSITE" value="com.ibm.streamsx.messaging.rabbitmq::RABBITMQComposite" />
+	
+	<target name="init">
+		<fail unless="env.M2_HOME" 
+			message="Environment variable M2_HOME not set. Please set this to point to the path of maven home directory"/>
+
+	</target>
+	
+	<target name="all" depends="distributed"/>
+
+	<!-- Downloads libraries using maven -->
+	<target name="maven-deps" depends="init">
+		<exec executable="${maven.bin}"  failonerror="true">
+			<arg value="package"/>	
+			<arg value="-f"/>	
+			<arg value="${pom.file}"/>
+	    </exec>
+	</target>
+	<target name="maven-clean">
+		<exec executable="${maven.bin}"  failonerror="true">
+			<arg value="clean"/>	
+			<arg value="${pom.file}"/>
+	    </exec>
+	</target>
+	<target name="standalone" depends="maven-deps">
+		<exec executable="${SPLC}"  failonerror="true">
+			<arg value="${SPLC_FLAGS}"/>	
+			<arg value="-T"/>	
+			<arg value="-M"/>	
+			<arg value="${SPL_MAIN_COMPOSITE}"/>	
+			<arg value="${SPL_CMD_ARGS}"/>	
+		  </exec>
+	</target>
+	<target name="distributed" depends="maven-deps">
+		<exec executable="${SPLC}"  failonerror="true">
+			<arg value="${SPLC_FLAGS}"/>		
+			<arg value="-M"/>	
+			<arg value="${SPL_MAIN_COMPOSITE}"/>	
+			<arg value="${SPL_CMD_ARGS}"/>	
+		  </exec>	
+	</target>
+	<target name="clean" depends="maven-clean">
+		<exec executable="${SPLC}"  failonerror="true">
+			<arg value="${SPLC_FLAGS}"/>		
+			<arg value="-C"/>	
+			<arg value="-M"/>	
+			<arg value="${SPL_MAIN_COMPOSITE}"/>	
+		  </exec>
+	</target>
+</project>

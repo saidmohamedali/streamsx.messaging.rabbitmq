@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info:toolkitInfoModel xmlns:common="http://www.ibm.com/xmlns/prod/streams/spl/common" xmlns:info="http://www.ibm.com/xmlns/prod/streams/spl/toolkitInfo">
+  <info:identity>
+    <info:name>com.ibm.streamsx.messaging.rabbitmq</info:name>
+    <info:description>
+    The RABBIT MQ toolkit project is an open source IBM InfoSphere Streams toolkit project. It is focused on the development of operators and functions that help you use InfoSphere Streams to interact with messaging systems such as RABBIT MQ. 
+
+The operators provide the ability for InfoSphere Streams applications to send and receive data from a queue or topic that is posted on RABBIT MQ server.
+
+    </info:description>
+    <info:version>1.0.0</info:version>
+    <info:requiredProductVersion>3.0.0</info:requiredProductVersion>
+  </info:identity>
+  <info:dependencies/>
+</info:toolkitInfoModel>
